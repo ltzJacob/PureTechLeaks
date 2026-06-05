@@ -21,75 +21,106 @@
     --font-display: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif; --font-mono: 'DM Mono', monospace;
   }
   body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; line-height: 1.6; }
+
+  /* ── LOGIN SCREEN ── */
+  #login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--bg);
+  }
+  .login-box {
+    width: 100%; max-width: 380px; padding: 2.5rem;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  }
+  .login-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; }
+  .login-logo-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--accent-dim); border: 1px solid var(--accent-glow);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .login-logo-icon svg { width: 20px; height: 20px; stroke: var(--accent); }
+  .login-logo-text { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
+  .login-logo-text span { color: var(--accent); }
+  .login-heading { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.3rem; }
+  .login-sub { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.75rem; }
+  .login-field { margin-bottom: 1rem; }
+  .login-field label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem; font-family: var(--font-mono); }
+  .login-field input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); font-family: var(--font-body); font-size: 0.9rem; padding: 0.7rem 1rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .login-field input:focus { border-color: var(--accent-glow); }
+  .login-field input::placeholder { color: var(--text-dim); }
+  .login-btn {
+    width: 100%; padding: 0.85rem; border-radius: 8px; border: none;
+    background: var(--accent); color: #000; font-family: var(--font-display);
+    font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 0.5rem;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .login-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .login-btn:active { transform: translateY(0); }
+  .login-error {
+    display: none; background: var(--red-dim); border: 1px solid rgba(255,77,77,0.3);
+    border-radius: 7px; padding: 0.6rem 0.9rem; font-size: 0.8rem; color: var(--red);
+    margin-top: 0.75rem; font-family: var(--font-mono); text-align: center;
+  }
+  .login-shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)}
+    60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
+  }
+
+  /* ── APP (hidden until logged in) ── */
+  #app { display: none; }
+
+  /* ── HEADER ── */
   header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.25rem 2.5rem; border-bottom: 1px solid var(--border);
     background: rgba(11,15,20,0.95); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
   }
   .logo { display: flex; align-items: center; gap: 10px; }
-  .logo-icon {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: var(--accent-dim); border: 1px solid var(--accent-glow);
-    display: flex; align-items: center; justify-content: center;
-  }
+  .logo-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--accent-dim); border: 1px solid var(--accent-glow); display: flex; align-items: center; justify-content: center; }
   .logo-icon svg { width: 18px; height: 18px; stroke: var(--accent); }
   .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
   .logo-text span { color: var(--accent); }
-  .header-nav { display: flex; gap: 0.5rem; }
-  .nav-btn {
-    font-family: var(--font-body); font-size: 0.8rem; font-weight: 500;
-    padding: 0.45rem 1rem; border-radius: 6px; border: 1px solid var(--border);
-    background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s;
-  }
+  .header-right { display: flex; gap: 0.5rem; align-items: center; }
+  .nav-btn { font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; padding: 0.45rem 1rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
   .nav-btn:hover { border-color: var(--border-strong); color: var(--text); background: var(--surface2); }
   .nav-btn.active { background: var(--accent-dim); border-color: var(--accent-glow); color: var(--accent); }
+  .logout-btn { font-family: var(--font-mono); font-size: 0.72rem; padding: 0.4rem 0.85rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+  .logout-btn:hover { border-color: rgba(255,77,77,0.4); color: var(--red); background: var(--red-dim); }
+
+  /* ── LAYOUT ── */
   .layout { display: grid; grid-template-columns: 1fr 420px; gap: 0; min-height: calc(100vh - 67px); }
   .form-panel { padding: 3rem 3rem 3rem 3.5rem; border-right: 1px solid var(--border); }
   .panel-heading { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 0.4rem; }
   .panel-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2.5rem; font-weight: 300; }
   .field-group { margin-bottom: 1.5rem; }
   label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; font-family: var(--font-mono); }
-  input[type="text"], textarea, select {
+  input[type="text"], textarea {
     width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
     color: var(--text); font-family: var(--font-body); font-size: 0.9rem; padding: 0.75rem 1rem;
-    outline: none; transition: border-color 0.2s, background 0.2s; appearance: none; -webkit-appearance: none;
+    outline: none; transition: border-color 0.2s, background 0.2s;
   }
-  input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--accent-glow); background: var(--surface2); }
+  input[type="text"]:focus, textarea:focus { border-color: var(--accent-glow); background: var(--surface2); }
   input::placeholder, textarea::placeholder { color: var(--text-dim); }
   textarea { resize: vertical; min-height: 90px; }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a8fa8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; cursor: pointer;
-  }
-  select option { background: #1a2230; }
   .location-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
-  .loc-btn {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    color: var(--text-muted); cursor: pointer; padding: 0.7rem 0.5rem;
-    font-family: var(--font-body); font-size: 0.8rem; text-align: center; transition: all 0.2s; line-height: 1.3;
-  }
+  .loc-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text-muted); cursor: pointer; padding: 0.7rem 0.5rem; font-family: var(--font-body); font-size: 0.8rem; text-align: center; transition: all 0.2s; line-height: 1.3; }
   .loc-btn:hover { border-color: var(--border-strong); color: var(--text); background: var(--surface2); }
   .loc-btn.selected { background: var(--accent-dim); border-color: var(--accent-glow); color: var(--accent); }
   .loc-btn .loc-icon { display: block; font-size: 1.2rem; margin-bottom: 4px; }
   .urgency-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-  .urgency-btn {
-    border-radius: 8px; border: 1px solid var(--border); background: var(--surface);
-    padding: 0.7rem 0.5rem; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem;
-    font-weight: 500; text-align: center; color: var(--text-muted); transition: all 0.2s; line-height: 1.3;
-  }
+  .urgency-btn { border-radius: 8px; border: 1px solid var(--border); background: var(--surface); padding: 0.7rem 0.5rem; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem; font-weight: 500; text-align: center; color: var(--text-muted); transition: all 0.2s; line-height: 1.3; }
   .urgency-btn .u-dot { display: block; width: 8px; height: 8px; border-radius: 50%; margin: 0 auto 6px; }
   .urgency-btn:hover { background: var(--surface2); border-color: var(--border-strong); }
   .urgency-btn[data-level="low"].selected    { background: var(--green-dim);  border-color: rgba(6,214,160,0.4);   color: var(--green); }
   .urgency-btn[data-level="medium"].selected { background: var(--yellow-dim); border-color: rgba(255,209,102,0.4); color: var(--yellow); }
   .urgency-btn[data-level="high"].selected   { background: var(--orange-dim); border-color: rgba(255,140,66,0.4);  color: var(--orange); }
   .urgency-btn[data-level="critical"].selected { background: var(--red-dim);  border-color: rgba(255,77,77,0.4);   color: var(--red); }
-  .u-dot-low { background: var(--green); } .u-dot-medium { background: var(--yellow); }
-  .u-dot-high { background: var(--orange); } .u-dot-critical { background: var(--red); }
-  .submit-btn {
-    width: 100%; padding: 0.9rem 1rem; border-radius: 8px; border: none;
-    background: var(--accent); color: #000; font-family: var(--font-display); font-size: 0.95rem;
-    font-weight: 700; cursor: pointer; margin-top: 2rem; transition: opacity 0.2s, transform 0.15s;
-  }
+  .u-dot-low{background:var(--green);} .u-dot-medium{background:var(--yellow);} .u-dot-high{background:var(--orange);} .u-dot-critical{background:var(--red);}
+  .submit-btn { width: 100%; padding: 0.9rem 1rem; border-radius: 8px; border: none; background: var(--accent); color: #000; font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 2rem; transition: opacity 0.2s, transform 0.15s; }
   .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
   .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   .flash { display: none; background: var(--green-dim); border: 1px solid rgba(6,214,160,0.3); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--green); margin-top: 1rem; font-family: var(--font-mono); }
@@ -107,12 +138,12 @@
   .filter-tab.active { background: var(--surface3); border-color: var(--border-strong); color: var(--text); }
   #leaks-list { display: flex; flex-direction: column; gap: 0.75rem; }
   .leak-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; animation: cardIn 0.3s ease; position: relative; overflow: hidden; }
-  .leak-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; }
+  .leak-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:3px 0 0 3px; }
   .leak-card[data-urgency="low"]::before      { background: var(--green); }
   .leak-card[data-urgency="medium"]::before   { background: var(--yellow); }
   .leak-card[data-urgency="high"]::before     { background: var(--orange); }
   .leak-card[data-urgency="critical"]::before { background: var(--red); }
-  @keyframes cardIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes cardIn { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:translateY(0);} }
   .leak-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 0.5rem; }
   .leak-location { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.2; }
   .urgency-badge { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 500; padding: 3px 8px; border-radius: 4px; white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase; flex-shrink: 0; }
@@ -133,8 +164,7 @@
   .stat-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem; text-align: center; }
   .stat-chip .s-num { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 500; display: block; }
   .stat-chip .s-label { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
-  .s-num.c-low { color: var(--green); } .s-num.c-med { color: var(--yellow); }
-  .s-num.c-high { color: var(--orange); } .s-num.c-critical { color: var(--red); }
+  .s-num.c-low{color:var(--green);} .s-num.c-med{color:var(--yellow);} .s-num.c-high{color:var(--orange);} .s-num.c-critical{color:var(--red);}
   #leaks-list-wrap { max-height: calc(100vh - 340px); overflow-y: auto; padding-right: 2px; }
   #leaks-list-wrap::-webkit-scrollbar { width: 4px; }
   #leaks-list-wrap::-webkit-scrollbar-track { background: transparent; }
@@ -147,102 +177,124 @@
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2C6 8 4 10 4 14a8 8 0 0 0 16 0c0-4-2-6-8-12z"/>
-        <path d="M12 12v5"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/>
-      </svg>
-    </div>
-    <div class="logo-text">Pure<span>Tech</span>Leaks</div>
-  </div>
-  <div class="header-nav">
-    <button class="nav-btn active" id="btn-report" onclick="setView('report')">Report</button>
-    <button class="nav-btn" id="btn-board" onclick="setView('board')">Active Leaks</button>
-  </div>
-</header>
-
-<div class="layout">
-  <div class="form-panel">
-    <div class="panel-heading">Report a Leak</div>
-    <div class="panel-sub">Submit a water or plumbing leak for immediate tracking.</div>
-
-    <div class="field-group">
-      <label>Your Name</label>
-      <input type="text" id="reporter" placeholder="e.g. Jordan M." />
-    </div>
-
-    <div class="field-group">
-      <label>Location</label>
-      <div class="location-grid">
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Lobby"><span class="loc-icon">🏛️</span>Lobby</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Reception"><span class="loc-icon">📋</span>Reception</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Kitchen"><span class="loc-icon">🍽️</span>Kitchen</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Men's Washroom"><span class="loc-icon">🚻</span>Men's WR</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Women's Washroom"><span class="loc-icon">🚻</span>Women's WR</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Server Room"><span class="loc-icon">🖥️</span>Server Room</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Meeting Room A"><span class="loc-icon">🗓️</span>Meeting A</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Meeting Room B"><span class="loc-icon">🗓️</span>Meeting B</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Open Office"><span class="loc-icon">💼</span>Open Office</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Storage Room"><span class="loc-icon">📦</span>Storage</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Stairwell"><span class="loc-icon">🪜</span>Stairwell</button>
-        <button class="loc-btn" onclick="selectLoc(this)" data-loc="Other"><span class="loc-icon">📍</span>Other</button>
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box" id="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6 8 4 10 4 14a8 8 0 0 0 16 0c0-4-2-6-8-12z"/>
+          <path d="M12 12v5"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/>
+        </svg>
       </div>
-      <input type="text" id="location-custom" placeholder="Specify exact spot (e.g. near window, under sink)" style="margin-top: 0.5rem;" />
+      <div class="login-logo-text">Pure<span>Tech</span>Leaks</div>
     </div>
-
-    <div class="field-group">
-      <label>Urgency Level</label>
-      <div class="urgency-row">
-        <button class="urgency-btn" data-level="low" onclick="selectUrgency(this)"><span class="u-dot u-dot-low"></span>Low</button>
-        <button class="urgency-btn" data-level="medium" onclick="selectUrgency(this)"><span class="u-dot u-dot-medium"></span>Medium</button>
-        <button class="urgency-btn" data-level="high" onclick="selectUrgency(this)"><span class="u-dot u-dot-high"></span>High</button>
-        <button class="urgency-btn" data-level="critical" onclick="selectUrgency(this)"><span class="u-dot u-dot-critical"></span>Critical</button>
-      </div>
+    <div class="login-heading">Staff Access</div>
+    <div class="login-sub">Enter your office credentials to continue.</div>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="login-user" placeholder="Username" autocomplete="username" />
     </div>
-
-    <div class="field-group">
-      <label>Description <span style="opacity:0.5;font-size:0.65rem;">(optional)</span></label>
-      <textarea id="desc" placeholder="Briefly describe the leak — size, source, what's affected..."></textarea>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password" />
     </div>
-
-    <button class="submit-btn" id="submit-btn" onclick="submitLeak()">Submit Leak Report →</button>
-    <div class="flash" id="flash-msg">✓ Leak reported and live on the shared board.</div>
-    <div class="error-msg" id="error-msg"></div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="login-error">✕ Incorrect username or password.</div>
   </div>
+</div>
 
-  <div class="leaks-panel">
-    <div class="leaks-header">
-      <div class="leaks-title"><span class="live-dot"></span>Active Leaks</div>
-      <div class="leak-count"><span id="total-count">0</span> active</div>
+<!-- MAIN APP -->
+<div id="app">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6 8 4 10 4 14a8 8 0 0 0 16 0c0-4-2-6-8-12z"/>
+          <path d="M12 12v5"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div class="logo-text">Pure<span>Tech</span>Leaks</div>
+    </div>
+    <div class="header-right">
+      <button class="nav-btn active" id="btn-report" onclick="setView('report')">Report</button>
+      <button class="nav-btn" id="btn-board" onclick="setView('board')">Active Leaks</button>
+      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <div class="form-panel">
+      <div class="panel-heading">Report a Leak</div>
+      <div class="panel-sub">Submit a water or plumbing leak for immediate tracking.</div>
+      <div class="field-group">
+        <label>Your Name</label>
+        <input type="text" id="reporter" placeholder="e.g. Jordan M." />
+      </div>
+      <div class="field-group">
+        <label>Location</label>
+        <div class="location-grid">
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Lobby"><span class="loc-icon">🏛️</span>Lobby</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Reception"><span class="loc-icon">📋</span>Reception</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Kitchen"><span class="loc-icon">🍽️</span>Kitchen</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Men's Washroom"><span class="loc-icon">🚻</span>Men's WR</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Women's Washroom"><span class="loc-icon">🚻</span>Women's WR</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Server Room"><span class="loc-icon">🖥️</span>Server Room</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Meeting Room A"><span class="loc-icon">🗓️</span>Meeting A</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Meeting Room B"><span class="loc-icon">🗓️</span>Meeting B</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Open Office"><span class="loc-icon">💼</span>Open Office</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Storage Room"><span class="loc-icon">📦</span>Storage</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Stairwell"><span class="loc-icon">🪜</span>Stairwell</button>
+          <button class="loc-btn" onclick="selectLoc(this)" data-loc="Other"><span class="loc-icon">📍</span>Other</button>
+        </div>
+        <input type="text" id="location-custom" placeholder="Specify exact spot (e.g. near window, under sink)" style="margin-top:0.5rem;" />
+      </div>
+      <div class="field-group">
+        <label>Urgency Level</label>
+        <div class="urgency-row">
+          <button class="urgency-btn" data-level="low" onclick="selectUrgency(this)"><span class="u-dot u-dot-low"></span>Low</button>
+          <button class="urgency-btn" data-level="medium" onclick="selectUrgency(this)"><span class="u-dot u-dot-medium"></span>Medium</button>
+          <button class="urgency-btn" data-level="high" onclick="selectUrgency(this)"><span class="u-dot u-dot-high"></span>High</button>
+          <button class="urgency-btn" data-level="critical" onclick="selectUrgency(this)"><span class="u-dot u-dot-critical"></span>Critical</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Description <span style="opacity:0.5;font-size:0.65rem;">(optional)</span></label>
+        <textarea id="desc" placeholder="Briefly describe the leak — size, source, what's affected..."></textarea>
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitLeak()">Submit Leak Report →</button>
+      <div class="flash" id="flash-msg">✓ Leak reported and live on the shared board.</div>
+      <div class="error-msg" id="error-msg"></div>
     </div>
 
-    <div id="connecting-bar" class="connecting-bar">⟳ Connecting to live database...</div>
-    <div id="critical-ticker" class="ticker-bar">⚠ Critical leak(s) require immediate attention</div>
-
-    <div class="stats-row">
-      <div class="stat-chip"><span class="s-num c-low" id="s-low">0</span><span class="s-label">Low</span></div>
-      <div class="stat-chip"><span class="s-num c-med" id="s-med">0</span><span class="s-label">Medium</span></div>
-      <div class="stat-chip"><span class="s-num c-high" id="s-high">0</span><span class="s-label">High</span></div>
-      <div class="stat-chip"><span class="s-num c-critical" id="s-crit">0</span><span class="s-label">Critical</span></div>
-    </div>
-
-    <div class="filter-tabs">
-      <button class="filter-tab active" onclick="filterLeaks('all', this)">All</button>
-      <button class="filter-tab" onclick="filterLeaks('low', this)">Low</button>
-      <button class="filter-tab" onclick="filterLeaks('medium', this)">Medium</button>
-      <button class="filter-tab" onclick="filterLeaks('high', this)">High</button>
-      <button class="filter-tab" onclick="filterLeaks('critical', this)">Critical</button>
-    </div>
-
-    <div id="leaks-list-wrap">
-      <div id="leaks-list">
-        <div class="empty-state">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 2C6 8 4 10 4 14a8 8 0 0 0 16 0c0-4-2-6-8-12z"/>
-          </svg>
-          Connecting...
+    <div class="leaks-panel">
+      <div class="leaks-header">
+        <div class="leaks-title"><span class="live-dot"></span>Active Leaks</div>
+        <div class="leak-count"><span id="total-count">0</span> active</div>
+      </div>
+      <div id="connecting-bar" class="connecting-bar">⟳ Connecting to live database...</div>
+      <div id="critical-ticker" class="ticker-bar">⚠ Critical leak(s) require immediate attention</div>
+      <div class="stats-row">
+        <div class="stat-chip"><span class="s-num c-low" id="s-low">0</span><span class="s-label">Low</span></div>
+        <div class="stat-chip"><span class="s-num c-med" id="s-med">0</span><span class="s-label">Medium</span></div>
+        <div class="stat-chip"><span class="s-num c-high" id="s-high">0</span><span class="s-label">High</span></div>
+        <div class="stat-chip"><span class="s-num c-critical" id="s-crit">0</span><span class="s-label">Critical</span></div>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterLeaks('all', this)">All</button>
+        <button class="filter-tab" onclick="filterLeaks('low', this)">Low</button>
+        <button class="filter-tab" onclick="filterLeaks('medium', this)">Medium</button>
+        <button class="filter-tab" onclick="filterLeaks('high', this)">High</button>
+        <button class="filter-tab" onclick="filterLeaks('critical', this)">Critical</button>
+      </div>
+      <div id="leaks-list-wrap">
+        <div id="leaks-list">
+          <div class="empty-state">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2C6 8 4 10 4 14a8 8 0 0 0 16 0c0-4-2-6-8-12z"/>
+            </svg>
+            Connecting...
+          </div>
         </div>
       </div>
     </div>
@@ -262,16 +314,59 @@
     appId: "1:376200031095:web:4d81912b43d1a41f46cf72"
   };
 
+  const CORRECT_USER = "PureTech";
+  const CORRECT_PASS = "PureTech";
+  const SESSION_KEY  = "ptl_auth";
+
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const db  = getFirestore(app);
   const leaksCol = collection(db, "leaks");
 
   let leaks = [];
   let activeFilter = 'all';
-  let selectedLoc = '';
+  let selectedLoc  = '';
   let selectedUrgency = '';
+  let unsubscribe = null;
 
-  // Expose to global scope for onclick handlers
+  // ── AUTH ──
+  function checkSession() {
+    return sessionStorage.getItem(SESSION_KEY) === 'true';
+  }
+
+  window.doLogin = () => {
+    const u = document.getElementById('login-user').value.trim();
+    const p = document.getElementById('login-pass').value;
+    if (u === CORRECT_USER && p === CORRECT_PASS) {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      startFirestore();
+    } else {
+      const err = document.getElementById('login-error');
+      const box = document.getElementById('login-box');
+      err.style.display = 'block';
+      box.classList.remove('login-shake');
+      void box.offsetWidth;
+      box.classList.add('login-shake');
+      document.getElementById('login-pass').value = '';
+    }
+  };
+
+  window.doLogout = () => {
+    sessionStorage.removeItem(SESSION_KEY);
+    if (unsubscribe) unsubscribe();
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-error').style.display = 'none';
+  };
+
+  // Allow pressing Enter on login fields
+  document.getElementById('login-user').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+  // ── APP FUNCTIONS ──
   window.selectLoc = (btn) => {
     document.querySelectorAll('.loc-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
@@ -294,70 +389,54 @@
   window.setView = (v) => {
     document.getElementById('btn-report').classList.toggle('active', v === 'report');
     document.getElementById('btn-board').classList.toggle('active', v === 'board');
-    document.querySelector('.form-panel').style.display = v === 'report' ? '' : 'none';
-    document.querySelector('.leaks-panel').style.display = v === 'board' ? 'block' : '';
+    document.querySelector('.form-panel').style.display  = v === 'report' ? '' : 'none';
+    document.querySelector('.leaks-panel').style.display = v === 'board'  ? 'block' : '';
     document.querySelector('.layout').style.gridTemplateColumns = v === 'report' ? '1fr 420px' : '1fr';
   };
 
   window.clearLeak = async (id) => {
-    try {
-      await deleteDoc(doc(db, "leaks", id));
-    } catch(e) {
-      console.error("Error clearing leak:", e);
-    }
+    try { await deleteDoc(doc(db, "leaks", id)); } catch(e) { console.error(e); }
   };
 
   window.submitLeak = async () => {
     const reporter = document.getElementById('reporter').value.trim();
-    const custom = document.getElementById('location-custom').value.trim();
-    const desc = document.getElementById('desc').value.trim();
-    const errEl = document.getElementById('error-msg');
-
+    const custom   = document.getElementById('location-custom').value.trim();
+    const desc     = document.getElementById('desc').value.trim();
+    const errEl    = document.getElementById('error-msg');
     errEl.style.display = 'none';
 
-    if (!selectedLoc) { showError('Please select a location.'); return; }
+    if (!selectedLoc)     { showError('Please select a location.'); return; }
     if (!selectedUrgency) { showError('Please select an urgency level.'); return; }
 
     const loc = custom ? selectedLoc + ' — ' + custom : selectedLoc;
     const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.textContent = 'Submitting...';
+    btn.disabled = true; btn.textContent = 'Submitting...';
 
     try {
       await addDoc(leaksCol, {
-        location: loc,
-        urgency: selectedUrgency,
-        desc: desc,
-        reporter: reporter || 'Anonymous',
-        timestamp: serverTimestamp()
+        location: loc, urgency: selectedUrgency, desc,
+        reporter: reporter || 'Anonymous', timestamp: serverTimestamp()
       });
-
       resetForm();
       const flash = document.getElementById('flash-msg');
       flash.style.display = 'block';
       setTimeout(() => flash.style.display = 'none', 3000);
-    } catch(e) {
-      showError('Failed to submit: ' + e.message);
-    }
+    } catch(e) { showError('Failed to submit: ' + e.message); }
 
-    btn.disabled = false;
-    btn.textContent = 'Submit Leak Report →';
+    btn.disabled = false; btn.textContent = 'Submit Leak Report →';
   };
 
   function showError(msg) {
     const el = document.getElementById('error-msg');
-    el.textContent = '✕ ' + msg;
-    el.style.display = 'block';
+    el.textContent = '✕ ' + msg; el.style.display = 'block';
   }
 
   function resetForm() {
     document.getElementById('reporter').value = '';
     document.getElementById('location-custom').value = '';
     document.getElementById('desc').value = '';
-    document.querySelectorAll('.loc-btn').forEach(b => b.classList.remove('selected'));
-    document.querySelectorAll('.urgency-btn').forEach(b => b.classList.remove('selected'));
-    selectedLoc = '';
-    selectedUrgency = '';
+    document.querySelectorAll('.loc-btn, .urgency-btn').forEach(b => b.classList.remove('selected'));
+    selectedLoc = ''; selectedUrgency = '';
   }
 
   function esc(s) {
@@ -367,22 +446,19 @@
   function formatTime(ts) {
     if (!ts) return 'just now';
     const d = ts.toDate();
-    return d.toLocaleDateString([], {month:'short', day:'numeric'}) + ' · ' + d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    return d.toLocaleDateString([],{month:'short',day:'numeric'}) + ' · ' + d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
   }
 
   function renderLeaks() {
     const filtered = activeFilter === 'all' ? leaks : leaks.filter(l => l.urgency === activeFilter);
     const list = document.getElementById('leaks-list');
-
-    const counts = { low:0, medium:0, high:0, critical:0 };
+    const counts = {low:0,medium:0,high:0,critical:0};
     leaks.forEach(l => counts[l.urgency]++);
-
     document.getElementById('total-count').textContent = leaks.length;
-    document.getElementById('s-low').textContent = counts.low;
-    document.getElementById('s-med').textContent = counts.medium;
+    document.getElementById('s-low').textContent  = counts.low;
+    document.getElementById('s-med').textContent  = counts.medium;
     document.getElementById('s-high').textContent = counts.high;
     document.getElementById('s-crit').textContent = counts.critical;
-
     const ticker = document.getElementById('critical-ticker');
     counts.critical > 0 ? ticker.classList.add('show') : ticker.classList.remove('show');
 
@@ -412,15 +488,23 @@
     `).join('');
   }
 
-  // Real-time listener — updates instantly for ALL users
-  const q = query(leaksCol, orderBy("timestamp", "desc"));
-  onSnapshot(q, (snapshot) => {
-    document.getElementById('connecting-bar').style.display = 'none';
-    leaks = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderLeaks();
-  }, (err) => {
-    document.getElementById('connecting-bar').textContent = '✕ Connection error: ' + err.message;
-  });
+  function startFirestore() {
+    const q = query(leaksCol, orderBy("timestamp", "desc"));
+    unsubscribe = onSnapshot(q, (snapshot) => {
+      document.getElementById('connecting-bar').style.display = 'none';
+      leaks = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderLeaks();
+    }, (err) => {
+      document.getElementById('connecting-bar').textContent = '✕ Connection error: ' + err.message;
+    });
+  }
+
+  // Auto-login if session still active
+  if (checkSession()) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    startFirestore();
+  }
 </script>
 </body>
 </html>
